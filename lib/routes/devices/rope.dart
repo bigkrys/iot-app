@@ -106,6 +106,7 @@ class RopeWidget extends State<Rope>{
 
   ifHaveSpeacialDevice(deviceName,deviceId) async{
 
+
      List <BluetoothDevice> connectedDevices = await widget.flutterBlue.connectedDevices;
     for(BluetoothDevice d in connectedDevices){
       if(d.id.toString() == deviceId){
@@ -418,13 +419,15 @@ class RopeWidget extends State<Rope>{
 
   @override
   Widget build(BuildContext context){
+    var theme = Provider.of<GlobalData>(context,listen: false).globalTheme;
+
     return Scaffold(
       appBar: AppBar(
-          title: Text("智能跳绳",style: TextStyle(color: Color(0xff1c1c1c)),),
-          backgroundColor:Color(0xfff8f8f8),
-          iconTheme: IconThemeData(color: Color(0xff007dfe),opacity: 30,size: 25)
+          title: Text("智能跳绳",style: TextStyle(color: theme.primaryColor),),
+          backgroundColor:theme.accentColor,
+          iconTheme: IconThemeData(color: theme.primaryColor,opacity: 30,size: 25)
       ),
-        backgroundColor:Color(0xfff8f8f8),
+        backgroundColor:theme.accentColor,
         body:Container(
           margin: EdgeInsets.only(top: 8,left: 20,right: 20),
           child: Column(
@@ -438,7 +441,7 @@ class RopeWidget extends State<Rope>{
                 padding: EdgeInsets.only(left: 20,right: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+                  color: theme.dividerColor,
                 ),
                 child:StreamBuilder<BluetoothDeviceState>(
                   stream: device.state,
@@ -495,7 +498,7 @@ class RopeWidget extends State<Rope>{
                 margin: EdgeInsets.only(top: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+                  color: theme.dividerColor,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -570,14 +573,14 @@ class RopeWidget extends State<Rope>{
                   margin: EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
+                    color: theme.dividerColor,
                   ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       margin: EdgeInsets.only(top: 10),
-                      child:Text('设备信息',style: TextStyle(color:Color(0xff181818),fontWeight: FontWeight.bold,fontSize: 18 ),),
+                      child:Text('设备信息',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18 ),),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
@@ -585,7 +588,7 @@ class RopeWidget extends State<Rope>{
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('厂家名称',style: TextStyle(color: Color(0xff181818),fontSize: 16),),
+                          Text('厂家名称',style: TextStyle(fontSize: 16),),
                           Text(deviceData.mrfs,style: TextStyle(color: Color(0xff999999),fontSize: 12),)
                         ],
                       ),
@@ -596,7 +599,7 @@ class RopeWidget extends State<Rope>{
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('设备型号',style: TextStyle(color: Color(0xff181818),fontSize: 16),),
+                          Text('设备型号',style: TextStyle(fontSize: 16),),
                           Text(deviceData.serial,style: TextStyle(color: Color(0xff999999),fontSize: 12),)
                         ],
                       ),
@@ -607,7 +610,7 @@ class RopeWidget extends State<Rope>{
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('软件版本号',style: TextStyle(color: Color(0xff181818),fontSize: 16),),
+                          Text('软件版本号',style: TextStyle(fontSize: 16),),
                           Text(deviceData.softwareVersion,style: TextStyle(color: Color(0xff999999),fontSize: 12),)
                         ],
                       ),
@@ -618,7 +621,7 @@ class RopeWidget extends State<Rope>{
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('硬件版本号',style: TextStyle(color: Color(0xff181818),fontSize: 16),),
+                          Text('硬件版本号',style: TextStyle(fontSize: 16),),
                           Text(deviceData.hardwareVersion,style: TextStyle(color: Color(0xff999999),fontSize: 12),)
                         ],
                       ),

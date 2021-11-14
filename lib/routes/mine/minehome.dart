@@ -7,15 +7,19 @@ var homecolor = Color(0xff8d4b0e);
 
 class MineHome extends StatelessWidget {
   const MineHome({Key? key}) : super(key: key);
+  void changeTheme(context){
+    Provider.of<GlobalData>(context,listen: false).changeThemeMode();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xfffff5f5f5),
+//      color: Color(0xfffff5f5f5),
       child: Column(
         children: [
           context
               .watch<GlobalData>()
               .hasLogin ? LoginWidget() : UnLoginWidget(),
+          RaisedButton(onPressed: ()=>changeTheme(context), child: Text('切换主题'))
         ],
       )
     );
@@ -33,13 +37,13 @@ class LoginWidget extends StatelessWidget{
       width:MediaQuery.of(context).size.width,
       height: 200,
       padding: EdgeInsets.only(left: 20,right: 20,),
-      color: Colors.white,
+//      color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Image.network(context.watch<GlobalData>().user.image,width: 60,height: 60,),
+              UserLogo(),
               Container(
                   margin: EdgeInsets.only(left: 20),
                   child:Text(context.watch<GlobalData>().user.nickname)
@@ -57,7 +61,7 @@ class LoginWidget extends StatelessWidget{
                 ],
               ),
               decoration: new BoxDecoration(
-                color: Colors.white,
+//                color: Colors.white,
                 border: Border.all(color: homecolor),
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
               ),
@@ -75,12 +79,8 @@ class LoginWidget extends StatelessWidget{
 }
 class UnLoginWidget extends StatelessWidget {
   void LoginMethod(context){
-    Navigator.push( context,
-        MaterialPageRoute(builder: (context) {
-          return Login();
-        }
-        )
-    );
+    Navigator.of(context).pushNamed("Login");
+
   }
 
   @override
@@ -89,13 +89,13 @@ class UnLoginWidget extends StatelessWidget {
       width:MediaQuery.of(context).size.width,
       height: 200,
       padding: EdgeInsets.only(left: 20,right: 20,),
-      color: Colors.white,
+//      color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Image.asset('assets/icon/people.png', width: 60, height: 60,),
+              Icon(Icons.person,size: 60,),
               Container(
                 margin: EdgeInsets.only(left: 20),
                 child:Text('未登录'),
@@ -113,7 +113,7 @@ class UnLoginWidget extends StatelessWidget {
                 ],
               ),
               decoration: new BoxDecoration(
-                color: Colors.white,
+//                color: Colors.white,
                 border: Border.all(color: homecolor),
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
               ),
@@ -130,6 +130,58 @@ class UnLoginWidget extends StatelessWidget {
 }
 
 
+class UserLogo extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState()=>UserLogoWidget();
+}
+
+class UserLogoWidget extends State<UserLogo> with SingleTickerProviderStateMixin{
+  late AnimationController controller;
+  late Animation<double> animation;
+
+  void initState() {
+    super.initState();
+    // 创建动画周期为1秒的AnimationController对象
+    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 3000));
+
+    final CurvedAnimation curve = CurvedAnimation(
+        parent: controller, curve: Curves.elasticOut);
+
+    // 创建从50到200线性变化的Animation对象
+    // 普通动画需要手动监听动画状态，刷新UI
+    animation = Tween(begin: 0.0, end: 30.0).animate(curve)
+      ..addListener(()=>setState((){}))
+      ..addStatusListener((status){
+        if(status == AnimationStatus.completed){
+          controller.reset();
+          controller.forward();
+        }
+      });
+
+// 启动动画
+    controller.forward();
+//    controller.repeat();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(
+      //设置动画的旋转中心
+      alignment: Alignment.center,
+      //动画控制器
+      turns: controller,
+      //将要执行动画的子view
+      child: Image.network(context.watch<GlobalData>().user.image,width: 60,height: 60,),
+    );
+  }
+
+  @override
+  void dispose() {
+    // 释放资源
+    controller.dispose();
+    super.dispose();
+  }
+}
 
 
 

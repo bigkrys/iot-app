@@ -3,6 +3,12 @@ import 'package:provider/provider.dart';
 import 'routes/home/home.dart';
 import 'routes/mine/minehome.dart';
 import 'globalData.dart';
+
+import 'routes/deviceslist/addDevices.dart';
+import 'routes/login.dart';
+
+import 'routes/webview/webview.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -14,22 +20,31 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => GlobalData()),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: MyHomePage(title: 'Flutter Demo Home Page'),
-      )
-    );
+      child: Consumer<GlobalData>(
+      builder: (context, darkModeProvider, _) {
+        return MaterialApp(
+            title: 'krysiot',
+            theme: Provider.of<GlobalData>(context,listen: false).globalTheme,
+            home: MyHomePage(),
+            routes:{
+              "Home":(context)=>Home(),
+              "Mine":(context)=>MineHome(),
+              "AddDevices":(context)=>AddDevices(),
+              "Login":(context)=>Login(),
+              "Webview":(context)=>WebViewExample(),
+
+            }
+
+        );
+      },
+
+
+    ));
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
+  MyHomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myflutter/common/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:myflutter/globalData.dart';
 import 'package:oktoast/oktoast.dart';
@@ -72,20 +73,22 @@ class Login extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    var theme = Provider.of<GlobalData>(context,listen: false).globalTheme;
 
     return OKToast(child: new MaterialApp(
       title: '登录',
+      theme:  Provider.of<GlobalData>(context,listen: false).globalTheme,
       home: new Scaffold(
         appBar: new AppBar(
           elevation: 0,
           leading:IconButton(
-            icon: Icon(Icons.clear,color: Colors.black,),
+            icon: Icon(Icons.clear,color: theme.primaryColor,),
             onPressed: () {
               back(context);
             },
           ),
-          backgroundColor:Colors.white,
-          title: new Text('登录',style: TextStyle(color: Colors.black),),
+          backgroundColor:theme.accentColor,
+          title: new Text('登录',style: TextStyle(color: theme.primaryColor),),
 
         ),
         body: new Center(

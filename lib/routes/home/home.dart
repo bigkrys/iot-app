@@ -33,7 +33,7 @@ class DeviceInfoItem extends StatelessWidget{
             margin: EdgeInsets.all(8),
             child: DeviceItemUI(context),
             decoration: new BoxDecoration(
-              color: Color(0xffffffff),
+              color: Provider.of<GlobalData>(context,listen: false).globalTheme.backgroundColor,
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
             ),
 
@@ -83,10 +83,7 @@ class UserHeader extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
         IconButton(onPressed: ()=>{
-          Navigator.push( context,
-            MaterialPageRoute(builder: (context) {
-            return AddDevices();
-            }))
+          Navigator.of(context).pushNamed("AddDevices")
         }, icon: Icon(Icons.add,color :homecolor))
       ],
       crossAxisAlignment:CrossAxisAlignment.start,
@@ -223,7 +220,7 @@ class HomeWidget extends  State<Home> with AutomaticKeepAliveClientMixin{
           ],
         ),
     ):Scaffold(
-      backgroundColor:Color(0xfffffcfcfc),
+//      backgroundColor:Color(0xfffffcfcfc),
 
       body: Center(
         child: Column(
@@ -246,7 +243,7 @@ class HomeWidget extends  State<Home> with AutomaticKeepAliveClientMixin{
                 ],
               ),
               decoration: new BoxDecoration(
-                color: Colors.white,
+//                color: Colors.white,
                 border: Border.all(color: homecolor),
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
               ),
@@ -263,16 +260,15 @@ class HomeWidget extends  State<Home> with AutomaticKeepAliveClientMixin{
                   ],
                 ),
                 decoration: new BoxDecoration(
-                  color: Colors.white,
+//                  color: Colors.white,
                   border: Border.all(color: homecolor),
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
               ),
               onTap: () => {
-                Navigator.push( context,
-                    MaterialPageRoute(builder: (context) {
-                      return Login();
-                    }))
+                Navigator.of(context).pushNamed("Webview")
+
+//                Navigator.of(context).pushNamed("Login")
               },
 
             )

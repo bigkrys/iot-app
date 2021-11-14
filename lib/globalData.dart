@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myflutter/models/index.dart';
+import 'package:flutter/material.dart';
+
+import './common/theme.dart';
 class GlobalData with ChangeNotifier, DiagnosticableTreeMixin {
 
   //是否已经登录
@@ -21,6 +24,10 @@ class GlobalData with ChangeNotifier, DiagnosticableTreeMixin {
 
   int _count = 0;
 
+  int _themeMode = 0;//0是浅色模式，1是深色模式
+
+  ThemeData _globalTheme = lightTheme;
+
   bool get hasLogin => _hasLogin;
 
   int get count => _count;
@@ -33,6 +40,8 @@ class GlobalData with ChangeNotifier, DiagnosticableTreeMixin {
 
   List <BluetoothDevice> get globalConnectedDevices => _globalConnectedDevices;
 
+  int get themeMode => _themeMode;
+  ThemeData get  globalTheme => _globalTheme;
 
   void UpdateUserInfo(User user){
     _user = user;
@@ -88,6 +97,17 @@ class GlobalData with ChangeNotifier, DiagnosticableTreeMixin {
     }else if(type == 1){
       await prefs.setBool(key, value);
     }
+  }
+
+  void changeThemeMode(){
+    if(_themeMode == 1){
+      _themeMode = 0;
+      _globalTheme = lightTheme;
+    }else{
+      _themeMode = 1;
+      _globalTheme = darkTheme;
+    }
+    notifyListeners();
   }
 
   /// Makes `Counter` readable inside the devtools by listing all of its properties

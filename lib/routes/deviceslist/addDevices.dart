@@ -159,14 +159,15 @@ class AddDeviceState extends State<AddDevices> {
   }
 
   Widget build(BuildContext context) {
+    var theme = Provider.of<GlobalData>(context,listen: false).globalTheme;
     Gcontext = context;
     return Scaffold(
       appBar: AppBar(
-          title: Text("添加设备",style: TextStyle(color: Color(0xff1c1c1c)),),
-          backgroundColor:Color(0xfff2f2f2),
-          iconTheme: IconThemeData(color: Color(0xff007dfe),opacity: 30,size: 25)
+          title: Text("添加设备",style: TextStyle(color: theme.primaryColor),),
+          backgroundColor:theme.accentColor,
+          iconTheme: IconThemeData(color: theme.primaryColor,opacity: 30,size: 25)
       ),
-      backgroundColor:Colors.white,
+      backgroundColor:theme.backgroundColor,
       body: Container(
         child: Column(
           children: [
@@ -178,9 +179,9 @@ class AddDeviceState extends State<AddDevices> {
                   return Column(
                       children: [
                         Center(
-                          child:Container(height: 300, width: 300, child: WaterRipple()),
+                          child:Container(height: 300, width: 300, child: WaterRipple(color: theme.primaryColor,)),
                         ),
-                        Text('正在扫描',style: TextStyle(color: Color(0xfe1b1b1b),fontSize: 22),),
+                        Text('正在扫描',style: TextStyle(fontSize: 22),),
                         Text('请确保智能设备已连接电源，且位于手机附近',style: TextStyle(color: Color(0xff979797),fontSize: 14))
                       ],
                     );
@@ -191,9 +192,9 @@ class AddDeviceState extends State<AddDevices> {
                         child: Container(
                           width: 100,
                           height: 40,
-                          child: Center(child: Text('重新搜索',style: TextStyle(color: Color(0xff276ac0)))),
+                          child: Center(child: Text('重新搜索',style: TextStyle(color: theme.backgroundColor))),
                           decoration: new BoxDecoration(
-                            color: Color(0xfff2f2f2),
+                            color: theme.primaryColor,
                             borderRadius: BorderRadius.all(Radius.circular(4.0)),
                           ),
 
@@ -213,56 +214,58 @@ class AddDeviceState extends State<AddDevices> {
 
               ),
             ),
-            Column(
-              children: [
-                Text('若添加蓝牙耳机，需先前往"系统设置" > "蓝牙" 连接耳机',style: TextStyle(color: Color(0xffa1a1a1),fontSize: 12)),
-                Container(
-                  child: Row(
-                    crossAxisAlignment:CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        child:Center(
-                          child: Container(
-                            width: 100,
-                            height: 40,
-                            child: Center(child: Text('手动添加',style: TextStyle(color: Color(0xff276ac0)))),
-                            decoration: new BoxDecoration(
-                              color: Color(0xfff2f2f2),
-                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            ),
 
-                          ),
-                        ),
-                        onTap: () => {
-                        Navigator.push( context,
-                        MaterialPageRoute(builder: (context) {
-                        return DevicesList();
-                        }))
-                        },
-                      ),
-                      GestureDetector(
-                        child:Center(
-                          child: Container(
-                            width: 100,
-                            height: 40,
-                            child: Center(child: Text('扫码添加',style: TextStyle(color: Color(0xff276ac0)))),
-                            decoration: new BoxDecoration(
-                              color: Color(0xfff2f2f2),
-                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            ),
-
-                          ),
-                        ),
-                        onTap: () => { },
-                      )
-                    ],
-                  ),
-                  margin: EdgeInsets.only(top: 8,left: 30,right: 30),
-                )
-              ],
-
-            )
+            Container()
+//            Column(
+//              children: [
+//                Text('若添加蓝牙耳机，需先前往"系统设置" > "蓝牙" 连接耳机',style: TextStyle(color: Color(0xffa1a1a1),fontSize: 12)),
+//                Container(
+//                  child: Row(
+//                    crossAxisAlignment:CrossAxisAlignment.start,
+//                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                    children: [
+//                      GestureDetector(
+//                        child:Center(
+//                          child: Container(
+//                            width: 100,
+//                            height: 40,
+//                            child: Center(child: Text('手动添加',style: TextStyle(color: Color(0xff276ac0)))),
+//                            decoration: new BoxDecoration(
+//                              color: Color(0xfff2f2f2),
+//                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+//                            ),
+//
+//                          ),
+//                        ),
+//                        onTap: () => {
+//                        Navigator.push( context,
+//                        MaterialPageRoute(builder: (context) {
+//                        return DevicesList();
+//                        }))
+//                        },
+//                      ),
+//                      GestureDetector(
+//                        child:Center(
+//                          child: Container(
+//                            width: 100,
+//                            height: 40,
+//                            child: Center(child: Text('扫码添加',style: TextStyle(color: Color(0xff276ac0)))),
+//                            decoration: new BoxDecoration(
+//                              color: Color(0xfff2f2f2),
+//                              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+//                            ),
+//
+//                          ),
+//                        ),
+//                        onTap: () => { },
+//                      )
+//                    ],
+//                  ),
+//                  margin: EdgeInsets.only(top: 8,left: 30,right: 30),
+//                )
+//              ],
+//
+//            )
           ],
           crossAxisAlignment:CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -282,6 +285,8 @@ class ScanResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Provider.of<GlobalData>(context,listen: false).globalTheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -301,7 +306,7 @@ class ScanResultTile extends StatelessWidget {
             child: Container(
               width: 60,
               height: 30,
-              child: Center(child: Text('连接',style: TextStyle(color: Color(0xff276ac0)))),
+              child: Center(child: Text('连接',style: TextStyle(color: theme.primaryColor),)),
               decoration: new BoxDecoration(
                 color: Color(0xfff2f2f2),
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
